@@ -64,7 +64,7 @@ public class ClusterConnector {
     @Asynchronous
     public void brodcastMessage(@Observes @OutgoingMessage ClusterMessage message) {
         boolean sameServer = uuid.equals(message.getSender());
-        if (!sameServer) {
+        if (sameServer == false) {
             message.setSender(uuid);
             messageSender.sendJMSMessage(message);
         } else {
@@ -89,7 +89,7 @@ public class ClusterConnector {
      */
     public void consumeMessage(ClusterMessage message) {
         boolean sameServer = uuid.equals(message.getSender());
-        if (!sameServer) {
+        if (sameServer == false) {
             clusterMessageEvent.fire(message);
         }
     }
